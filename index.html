@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>For You 💕</title>
+    <meta name="description" content="A special message just for you." />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💌</text></svg>"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+  </head>
+  <body>
+    <!-- Particle background -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- ===== SCENE 1: Envelope ===== -->
+    <div id="scene-envelope" class="scene active">
+      <div class="envelope-wrapper" id="envelope-trigger">
+        <div class="envelope" id="envelope">
+          <div class="envelope-flap"></div>
+          <div class="envelope-seal">💌</div>
+          <div class="envelope-body"></div>
+          <div class="envelope-letter">
+            <span class="letter-text">Hey you... don't freak out okay? 🙈</span>
+          </div>
+        </div>
+        <span class="envelope-prompt">tap to open</span>
+      </div>
+    </div>
+
+    <!-- ===== SCENE 2: Question ===== -->
+    <div id="scene-question" class="scene">
+      <div class="question-card">
+        <h1 class="question-title">Do you wanna be mine forever? 🥺💗</h1>
+        <p class="question-subtitle">— no take-backs —</p>
+
+        <div class="gif-container">
+          <img
+            id="cat-gif"
+            src="https://media1.tenor.com/m/ib9cT_-tG3oAAAAC/cat-whale.gif"
+            alt="cute character"
+          />
+        </div>
+
+        <div class="buttons">
+          <button id="yes-btn">Yes</button>
+          <button id="no-btn">No</button>
+        </div>
+        <div id="tease-toast"></div>
+      </div>
+    </div>
+
+    <!-- ===== SCENE 3: Celebration ===== -->
+    <div id="scene-celebration" class="scene">
+      <div class="celebration-card">
+        <h1 class="celebration-title">I knew you'd say yes! 🎉</h1>
+
+        <div class="celebration-gif">
+          <img
+            src="https://media1.tenor.com/m/-jI01ex8troAAAAC/cat-whale.gif"
+            alt="celebrating"
+          />
+        </div>
+
+        <div class="typewriter-container">
+          <span class="typewriter-text" id="typewriter-text"></span>
+          <span class="typewriter-cursor" id="typewriter-cursor"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Audio -->
+    <audio id="bg-music" loop>
+      <source
+        src="music/Cup of Joe - Multo.webm"
+        type="audio/webm"
+      />
+    </audio>
+
+    <button id="music-toggle" title="Toggle music">🔇</button>
+
+    <script src="script.js"></script>
+  </body>
+</html>
