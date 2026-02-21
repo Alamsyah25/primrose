@@ -1,5 +1,5 @@
 /* ============================================
-   PRIMROSE — Valentine's Day Experience
+   PRIMROSE — Special Ramadan Experience
    Main Script: Particles, Scenes, Interactions
    ============================================ */
 
@@ -20,19 +20,19 @@ const noMessages = [
   "No",
   "Are you sure? 🤔",
   "Pookie please... 🥺",
-  "I'll be really sad...",
-  "I'm begging you... 😢",
-  "Please??? 💔",
-  "Don't do this to me...",
+  "I'll be really sad fasting alone...",
+  "I'll buy you your favorite takjil! 😢",
+  "Don't do this to me... 💔",
+  "It's the month of giving, give me your time 🕌",
   "Last chance! 😭",
   "You can't catch me anyway 😜",
 ];
 
 // ─── Yes-button tease messages (before runaway is enabled) ───
 const yesTeasePokes = [
-  "try saying no first... I dare you 😏",
-  "go on, hit no... just once 👀",
-  "you're missing out on something fun 😈",
+  "trying to say no to free takjil? 😏",
+  "go on, hit no... you know you want my company 👀",
+  "missing out on a great Iftar date 😈",
   "click no, I double dare you 😏",
 ];
 
@@ -51,7 +51,7 @@ const music = document.getElementById("bg-music");
 const musicToggle = document.getElementById("music-toggle");
 
 // ============================================
-// PARTICLE SYSTEM
+// PARTICLE SYSTEM (Stars)
 // ============================================
 const canvas = document.getElementById("particle-canvas");
 const ctx = canvas.getContext("2d");
@@ -76,15 +76,16 @@ class Particle {
     this.size = Math.random() * 14 + 6;
     this.speedY = -(Math.random() * 0.6 + 0.15);
     this.speedX = (Math.random() - 0.5) * 0.3;
-    this.opacity = Math.random() * 0.25 + 0.05;
+    this.opacity = Math.random() * 0.3 + 0.1;
     this.rotation = Math.random() * Math.PI * 2;
     this.rotationSpeed = (Math.random() - 0.5) * 0.02;
     this.wobble = Math.random() * Math.PI * 2;
     this.wobbleSpeed = Math.random() * 0.02 + 0.005;
-    // Type: 0 = heart, 1 = sparkle
-    this.type = Math.random() < 0.7 ? 0 : 1;
+    // Type: 0 = 8-point star, 1 = 4-point sparkle
+    this.type = Math.random() < 0.3 ? 0 : 1;
+    // Green and Gold hues
     this.hue =
-      Math.random() < 0.5 ? 340 + Math.random() * 20 : 25 + Math.random() * 15;
+      Math.random() < 0.5 ? 40 + Math.random() * 15 : 140 + Math.random() * 30;
     this.saturation = 60 + Math.random() * 30;
   }
 
@@ -104,18 +105,27 @@ class Particle {
     ctx.globalAlpha = this.opacity;
 
     if (this.type === 0) {
-      // Heart shape
-      ctx.fillStyle = `hsla(${this.hue}, ${this.saturation}%, 65%, 1)`;
+      // 8-point Islamic star
+      ctx.fillStyle = `hsla(${this.hue}, ${this.saturation}%, 70%, 1)`;
+      const s = this.size * 0.6;
       ctx.beginPath();
-      const s = this.size / 2;
-      ctx.moveTo(0, s * 0.3);
-      ctx.bezierCurveTo(-s, -s * 0.5, -s * 1.8, s * 0.3, 0, s * 1.5);
-      ctx.bezierCurveTo(s * 1.8, s * 0.3, s, -s * 0.5, 0, s * 0.3);
+      for (let i = 0; i < 8; i++) {
+        const angle = (i * Math.PI) / 4;
+        const outerX = Math.cos(angle) * s;
+        const outerY = Math.sin(angle) * s;
+        const innerAngle = angle + Math.PI / 8;
+        const innerX = Math.cos(innerAngle) * s * 0.4;
+        const innerY = Math.sin(innerAngle) * s * 0.4;
+        if (i === 0) ctx.moveTo(outerX, outerY);
+        else ctx.lineTo(outerX, outerY);
+        ctx.lineTo(innerX, innerY);
+      }
+      ctx.closePath();
       ctx.fill();
     } else {
       // Sparkle (4-point star)
-      ctx.fillStyle = `hsla(${this.hue}, ${this.saturation}%, 80%, 1)`;
-      const s = this.size * 0.4;
+      ctx.fillStyle = `hsla(${this.hue}, ${this.saturation}%, 85%, 1)`;
+      const s = this.size * 0.45;
       ctx.beginPath();
       for (let i = 0; i < 4; i++) {
         const angle = (i * Math.PI) / 2;
@@ -137,7 +147,7 @@ class Particle {
 }
 
 // Init particles
-function initParticles(count = 35) {
+function initParticles(count = 45) {
   particles = [];
   for (let i = 0; i < count; i++) {
     const p = new Particle();
@@ -245,11 +255,7 @@ function handleNoClick() {
   const padX = Math.min(42 + noClickCount * 10, 110);
   yesBtn.style.padding = `${padY}px ${padX}px`;
 
-  // Shrink No button
-  if (noClickCount >= 2) {
-    const noSize = parseFloat(window.getComputedStyle(noBtn).fontSize);
-    noBtn.style.fontSize = `${Math.max(noSize * 0.85, 9)}px`;
-  }
+  // Keep No button always visible (no shrinking)
 
   // Swap GIF
   const gifIndex = Math.min(noClickCount, gifStages.length - 1);
@@ -295,15 +301,15 @@ function runAway() {
 // SCENE 3: CELEBRATION
 // ============================================
 function launchCelebration() {
-  // Big initial burst
+  // Big initial burst (Emerald and Gold colors)
   const colors = [
-    "#ff69b4",
-    "#e8436a",
-    "#ff9bb3",
+    "#1b8a53",
+    "#34d399",
+    "#6ee7b7",
     "#d4a574",
     "#f0d0a8",
-    "#fff5f7",
-    "#ffdf00",
+    "#ffffff",
+    "#fef08a",
   ];
 
   confetti({
@@ -350,7 +356,7 @@ function launchCelebration() {
   // Extra burst of particles
   for (let i = 0; i < 20; i++) {
     const p = new Particle();
-    p.opacity = Math.random() * 0.35 + 0.1;
+    p.opacity = Math.random() * 0.4 + 0.1;
     p.speedY = -(Math.random() * 1.2 + 0.4);
     particles.push(p);
   }
@@ -358,7 +364,7 @@ function launchCelebration() {
 
 function startTypewriter() {
   const message =
-    "You just made me the happiest person in the world... I can't stop smiling 💕";
+    "I'm so happy! Let's break our fast together and make this Ramadan extra special ✨💕";
   const el = document.getElementById("typewriter-text");
   const cursor = document.getElementById("typewriter-cursor");
   let i = 0;
